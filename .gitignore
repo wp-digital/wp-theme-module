@@ -1,0 +1,19 @@
+# Dependency directories
+vendor/
+
+# dotenv environment variables file
+.env
+
+# Logs
+logs
+*.log
+
+# Cache
+.cache
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
