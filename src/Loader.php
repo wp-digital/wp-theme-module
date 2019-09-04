@@ -168,13 +168,13 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     {
         $loaded = $module->load_required_classes();
 
-        if ( is_wp_error( $loaded ) ) {
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG && is_wp_error( $loaded ) ) {
             wp_die( $loaded );
         }
 
         $initialized = $module->init();
 
-        if ( is_wp_error( $initialized ) ) {
+        if ( defined( 'WP_DEBUG' ) && WP_DEBUG && is_wp_error( $initialized ) ) {
             wp_die( $initialized );
         }
     }
