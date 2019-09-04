@@ -23,11 +23,11 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     public function __construct( array $modules = null )
     {
         if ( is_null( $modules ) ) {
-            $this->_modules = $this->scan_modules_dir();
-        } else {
-            foreach ( $modules as $key => $module ) {
-                $this[ $key ] = $module;
-            }
+            $modules = $this->scan_modules_dir();
+        }
+
+        foreach ( $modules as $module ) {
+            $this[] = $module;
         }
     }
 
@@ -78,12 +78,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     {
         $path = $this->get_modules_dir() . "/$value";
         $module = new Module( $path, $value );
-
-        if ( is_null( $offset ) ) {
-            $this->_modules[] = $module;
-        } else {
-            $this->_modules[ $offset ] = $module;
-        }
+        $this->_modules[ $value ] = $module;
     }
 
     /**
@@ -155,7 +150,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
                 continue;
             }
 
-            $modules[] = new Module( $file->getRealPath(), $file->getFilename() );
+            $modules[] = $file->getFilename();
         }
 
         return $modules;
