@@ -8,6 +8,7 @@ use Countable;
 use DirectoryIterator;
 use Traversable;
 use ArrayIterator;
+use WP_Error;
 
 /**
  * Class Loader
