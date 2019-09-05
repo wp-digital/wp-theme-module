@@ -15,6 +15,8 @@ use ArrayIterator;
  */
 final class Loader implements ArrayAccess, IteratorAggregate, Countable
 {
+    use Debugger;
+
     /**
      * @var array
      */
@@ -131,6 +133,13 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 
     public function run()
     {
+        if ( ! isset( $module['Theme'] ) ) {
+            $error = new WP_Error( 'theme_module_missing', 'Missing Theme module.' );
+            $this->warn( $error );
+
+            return;
+        }
+
         foreach ( $this as $module ) {
             $this->load( $module );
         }
@@ -162,15 +171,8 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     public function load( Module $module )
     {
         $loaded = $module->load_required_classes();
-
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG && is_wp_error( $loaded ) ) {
-            wp_die( $loaded );
-        }
-
+        $this->debug( $loaded );
         $initialized = $module->init();
-
-        if ( defined( 'WP_DEBUG' ) && WP_DEBUG && is_wp_error( $initialized ) ) {
-            wp_die( $initialized );
-        }
+        $this->debug( $initialized );
     }
 }
