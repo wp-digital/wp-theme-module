@@ -2,6 +2,8 @@
 
 namespace Innocode\WPThemeModule;
 
+use Innocode\WPThemeModule\Abstracts\AbstractInitialization;
+use Innocode\WPThemeModule\Abstracts\AbstractThemeInitialization;
 use WP_Error;
 
 /**
@@ -23,7 +25,7 @@ class Module
      */
     private $_initialization;
 
-    public function __construct( $path, $name )
+    public function __construct( string $path, string $name )
     {
         $this->_name = $name;
         $this->_path = $path;
@@ -32,7 +34,7 @@ class Module
     /**
      * @return string
      */
-    public function get_path()
+    public function get_path() : string
     {
         return $this->_path;
     }
@@ -40,7 +42,7 @@ class Module
     /**
      * @return string
      */
-    public function get_name()
+    public function get_name() : string
     {
         return $this->_name;
     }
@@ -48,7 +50,7 @@ class Module
     /**
      * @return AbstractInitialization
      */
-    public function get_initialization()
+    public function get_initialization() : AbstractInitialization
     {
         return $this->_initialization;
     }
@@ -56,7 +58,7 @@ class Module
     /**
      * @return string
      */
-    public function get_initialization_class()
+    public function get_initialization_class() : string
     {
         return "\\Module\\$this->_name\\Initialization";
     }
@@ -64,7 +66,7 @@ class Module
     /**
      * @return string
      */
-    public function get_functions_class()
+    public function get_functions_class() : string
     {
         return "\\Module\\$this->_name\\Functions";
     }
@@ -72,7 +74,7 @@ class Module
     /**
      * @return bool
      */
-    public function initialization_class_exists()
+    public function initialization_class_exists() : bool
     {
         return class_exists( $this->get_initialization_class() );
     }
@@ -80,48 +82,32 @@ class Module
     /**
      * @return bool
      */
-    public function functions_class_exists()
+    public function functions_class_exists() : bool
     {
         return class_exists( $this->get_functions_class() );
     }
 
-    /**
-     * @return bool|WP_Error
-     */
     public function load_required_classes()
     {
         if ( ! $this->initialization_class_exists() ) {
-            return new WP_Error( 'theme_module_missing_class', sprintf(
-                'Missing class %s in module %s at %s.',
-                $this->get_initialization_class(),
-                $this->get_name(),
-                $this->get_path()
-            ), [
-                $this->get_initialization_class(),
-                $this->get_name(),
-                $this->get_path()
-            ] );
+            trigger_error( sprintf(
+	            'Missing class %s in module %s at %s.',
+	            $this->get_initialization_class(),
+	            $this->get_name(),
+	            $this->get_path()
+            ), E_USER_ERROR );
         }
 
         if ( ! $this->functions_class_exists() ) {
-            return new WP_Error( 'theme_module_missing_class', sprintf(
-                'Missing class %s in module %s at %s.',
-                $this->get_functions_class(),
-                $this->get_name(),
-                $this->get_path()
-            ), [
-                $this->get_functions_class(),
-                $this->get_name(),
-                $this->get_path()
-            ] );
+	        trigger_error( sprintf(
+		        'Missing class %s in module %s at %s.',
+		        $this->get_functions_class(),
+		        $this->get_name(),
+		        $this->get_path()
+	        ), E_USER_ERROR );
         }
-
-        return true;
     }
 
-    /**
-     * @return bool|WP_Error
-     */
     public function init()
     {
         $initialization_class = $this->get_initialization_class();
@@ -132,38 +118,26 @@ class Module
             ! ( $this->_initialization instanceof AbstractThemeInitialization )
         ) {
             $abstract_theme_initialization_class = __NAMESPACE__ . '\\AbstractThemeInitialization';
+            trigger_error( sprintf(
+	            'Class %s should extends %s in module %s at %s.',
+	            $initialization_class,
+	            $abstract_theme_initialization_class,
+	            $this->get_name(),
+	            $this->get_path()
+            ), E_USER_ERROR );
+        }
 
-            return new WP_Error( 'theme_module_invalid_initialization', sprintf(
-                'Class %s should extends %s in module %s at %s.',
-                $initialization_class,
-                $abstract_theme_initialization_class,
-                $this->get_name(),
-                $this->get_path()
-            ), [
-                $initialization_class,
-                $abstract_theme_initialization_class,
-                $this->get_name(),
-                $this->get_path()
-            ] );
-        } elseif ( ! ( $this->_initialization instanceof AbstractInitialization ) ) {
+        if ( ! ( $this->_initialization instanceof AbstractInitialization ) ) {
             $abstract_initialization_class = __NAMESPACE__ . '\\AbstractInitialization';
-
-            return new WP_Error( 'theme_module_invalid_initialization', sprintf(
-                'Class %s should extends %s in module %s at %s.',
-                $initialization_class,
-                $abstract_initialization_class,
-                $this->get_name(),
-                $this->get_path()
-            ), [
-                $initialization_class,
-                $abstract_initialization_class,
-                $this->get_name(),
-                $this->get_path()
-            ] );
+			trigger_error( sprintf(
+				'Class %s should extends %s in module %s at %s.',
+				$initialization_class,
+				$abstract_initialization_class,
+				$this->get_name(),
+				$this->get_path()
+			), E_USER_ERROR );
         }
 
         $this->_initialization->run();
-
-        return true;
     }
 }

@@ -8,7 +8,6 @@ use Countable;
 use DirectoryIterator;
 use Traversable;
 use ArrayIterator;
-use WP_Error;
 
 /**
  * Class Loader
@@ -16,8 +15,6 @@ use WP_Error;
  */
 final class Loader implements ArrayAccess, IteratorAggregate, Countable
 {
-    use Debugger;
-
     /**
      * @var array
      */
@@ -33,6 +30,18 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
             $this[] = $module;
         }
     }
+
+	/**
+	 * Retrieve an external iterator
+	 * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
+	 * @return Traversable An instance of an object implementing <b>Iterator</b> or
+	 * <b>Traversable</b>
+	 * @since 5.0.0
+	 */
+	public function getIterator()
+	{
+		return new ArrayIterator( $this->_modules );
+	}
 
     /**
      * Whether a offset exists
@@ -99,18 +108,6 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Retrieve an external iterator
-     * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator( $this->_modules );
-    }
-
-    /**
      * Count elements of an object
      * @link https://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
@@ -127,7 +124,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     /**
      * @return string
      */
-    public function get_modules_dir()
+    public function get_modules_dir() : string
     {
         return get_stylesheet_directory() . '/modules';
     }
@@ -135,10 +132,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     public function run()
     {
         if ( ! isset( $this['Theme'] ) ) {
-            $error = new WP_Error( 'theme_module_missing', 'Missing Theme module.' );
-            $this->warn( $error );
-
-            return;
+        	trigger_error( 'Missing Theme module.', E_USER_ERROR );
         }
 
         foreach ( $this as $module ) {
@@ -149,7 +143,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     /**
      * @return array
      */
-    public function scan_modules_dir()
+    public function scan_modules_dir() : array
     {
         $modules_dir = $this->get_modules_dir();
         $dir_iterator = new DirectoryIterator( $modules_dir );
@@ -171,9 +165,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
      */
     public function load( Module $module )
     {
-        $loaded = $module->load_required_classes();
-        $this->debug( $loaded );
-        $initialized = $module->init();
-        $this->debug( $initialized );
+        $module->load_required_classes();
+        $module->init();
     }
 }
