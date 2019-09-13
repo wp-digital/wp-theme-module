@@ -1,13 +1,13 @@
 <?php
 
-namespace Innocode\WPThemeModule;
+namespace Innocode\WPThemeModule\Abstracts;
 
 use ReflectionClass;
 use ReflectionException;
 
 /**
  * Class AbstractFunctions
- * @package Innocode\WPThemeModule
+ * @package Innocode\WPThemeModule\Abstracts
  */
 abstract class AbstractFunctions
 {
@@ -15,7 +15,7 @@ abstract class AbstractFunctions
      * @param string $file
      * @return string
      */
-    public static function get_module_file_path( string $file = '' )
+    public static function get_module_file_path( string $file = '' ) : string
     {
         $file = static::get_file_path( $file );
 
@@ -26,7 +26,7 @@ abstract class AbstractFunctions
      * @param string $file
      * @return string
      */
-    public static function get_module_file_uri( string $file = '' )
+    public static function get_module_file_uri( string $file = '' ) : string
     {
         $file = static::get_file_path( $file );
 
@@ -37,7 +37,7 @@ abstract class AbstractFunctions
      * @param string $file
      * @return string
      */
-    public static function get_file_path( string $file = '' )
+    public static function get_file_path( string $file = '' ) : string
     {
         $path = 'modules';
         $file = ltrim( $file, '/' );
