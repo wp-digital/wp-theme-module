@@ -8,7 +8,7 @@ use Innocode\WPThemeModule\Interfaces\ThemeInitializationInterface;
  * Class AbstractThemeInitialization
  * @package Innocode\WPThemeModule
  */
-abstract class AbstractThemeInitialization extends AbstractInitialization implements ThemeInitializationInterface
+abstract class AbstractThemeInitialization extends AbstractRegistrar implements ThemeInitializationInterface
 {
     public function run()
     {

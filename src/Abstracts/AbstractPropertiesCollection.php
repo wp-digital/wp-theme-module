@@ -24,7 +24,7 @@ abstract class AbstractPropertiesCollection
 
 	/**
 	 * @param string $name
-	 * @param string $value
+	 * @param mixed  $value
 	 */
 	public function __set( $name, $value )
 	{

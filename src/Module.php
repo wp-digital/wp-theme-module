@@ -3,8 +3,8 @@
 namespace Innocode\WPThemeModule;
 
 use Innocode\WPThemeModule\Abstracts\AbstractInitialization;
+use Innocode\WPThemeModule\Abstracts\AbstractRegistrar;
 use Innocode\WPThemeModule\Abstracts\AbstractThemeInitialization;
-use WP_Error;
 
 /**
  * Class Module
@@ -48,9 +48,9 @@ class Module
     }
 
     /**
-     * @return AbstractInitialization
+     * @return AbstractInitialization|AbstractThemeInitialization
      */
-    public function get_initialization() : AbstractInitialization
+    public function get_initialization() : AbstractRegistrar
     {
         return $this->_initialization;
     }
@@ -113,21 +113,18 @@ class Module
         $initialization_class = $this->get_initialization_class();
         $this->_initialization = new $initialization_class;
 
-        if (
-            $this->get_name() == 'Theme' &&
-            ! ( $this->_initialization instanceof AbstractThemeInitialization )
-        ) {
-            $abstract_theme_initialization_class = __NAMESPACE__ . '\\AbstractThemeInitialization';
-            trigger_error( sprintf(
-	            'Class %s should extends %s in module %s at %s.',
-	            $initialization_class,
-	            $abstract_theme_initialization_class,
-	            $this->get_name(),
-	            $this->get_path()
-            ), E_USER_ERROR );
-        }
-
-        if ( ! ( $this->_initialization instanceof AbstractInitialization ) ) {
+        if ( $this->get_name() == 'Theme' ) {
+	        if ( ! ( $this->_initialization instanceof AbstractThemeInitialization ) ) {
+		        $abstract_theme_initialization_class = __NAMESPACE__ . '\\AbstractThemeInitialization';
+		        trigger_error( sprintf(
+			        'Class %s should extends %s in module %s at %s.',
+			        $initialization_class,
+			        $abstract_theme_initialization_class,
+			        $this->get_name(),
+			        $this->get_path()
+		        ), E_USER_ERROR );
+	        }
+        } elseif ( ! ( $this->_initialization instanceof AbstractInitialization ) ) {
             $abstract_initialization_class = __NAMESPACE__ . '\\AbstractInitialization';
 			trigger_error( sprintf(
 				'Class %s should extends %s in module %s at %s.',
