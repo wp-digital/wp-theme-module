@@ -147,23 +147,4 @@ final class PostType extends AbstractArgs
 			? new Rewrite( $rewrite )
 			: $rewrite;
 	}
-
-	/**
-	 * @return array
-	 */
-	public function get_args() : array
-	{
-		$this->_args = parent::get_args();
-
-		foreach ( [
-			'supports',
-			'taxonomies',
-		] as $arg ) {
-			if ( isset( $this->$arg ) && $this->$arg instanceof ArrayObject ) {
-				$this->_args[ $arg ] = $this->$arg->getArrayCopy();
-			}
-		}
-
-		return $this->_args;
-	}
 }

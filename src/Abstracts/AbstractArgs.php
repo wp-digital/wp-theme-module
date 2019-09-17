@@ -3,6 +3,7 @@
 namespace Innocode\WPThemeModule\Abstracts;
 
 use Innocode\WPThemeModule\Interfaces\ArgsInterface;
+use ArrayObject;
 
 /**
  * Class AbstractArgs
@@ -33,17 +34,14 @@ abstract class AbstractArgs implements ArgsInterface
 	 */
 	public function __set( $name, $value )
 	{
-		switch ( $name ) {
-			case 'labels':
-			case 'capabilities':
-			case 'rewrite':
-				$this->{"set_$name"}( $value );
+		$setter = "set_$name";
 
-				break;
-			default:
-				$this->_args[ $name ] = $value;
-
-				break;
+		if ( method_exists( $this, $setter ) ) {
+			$this->$setter( $value );
+		} else {
+			$this->_args[ $name ] = is_array( $value )
+				? new ArrayObject( $value )
+				: $value;
 		}
 	}
 
@@ -53,16 +51,15 @@ abstract class AbstractArgs implements ArgsInterface
 	 */
 	public function __get( $name )
 	{
-		switch ( $name ) {
-			case 'labels':
-			case 'capabilities':
-			case 'rewrite':
-				return $this->{"get_$name"}();
-			default:
-				return array_key_exists( $name, $this->_args )
-					? $this->_args[ $name ]
-					: null;
+		$getter = "get_$name";
+
+		if ( method_exists( $this, $getter ) ) {
+			return $this->$getter();
 		}
+
+		return array_key_exists( $name, $this->_args )
+			? $this->_args[ $name ]
+			: null;
 	}
 
 	/**
@@ -72,6 +69,14 @@ abstract class AbstractArgs implements ArgsInterface
 	 */
 	public function __isset( $name )
 	{
+		$getter = "get_$name";
+
+		if ( method_exists( $this, $getter ) ) {
+			$value = $this->$getter();
+
+			return isset( $value );
+		}
+
 		return isset( $this->_args[ $name ] );
 	}
 
@@ -80,7 +85,13 @@ abstract class AbstractArgs implements ArgsInterface
 	 */
 	public function __unset( $name )
 	{
-		unset( $this->_args[ $name ] );
+		$setter = "set_$name";
+
+		if ( method_exists( $this, $setter ) ) {
+			$this->$setter( null );
+		} else {
+			unset( $this->_args[ $name ] );
+		}
 	}
 
 	/**
@@ -88,24 +99,34 @@ abstract class AbstractArgs implements ArgsInterface
 	 */
 	public function get_args() : array
 	{
+		$args = [];
+
+		foreach ( $this->_args as $name => $value ) {
+			$args[ $name ] = $value instanceof ArrayObject
+				? $value->getArrayCopy()
+				: $value;
+		}
+
 		foreach ( [
 			'labels',
 			'capabilities',
 			'rewrite',
-		] as $arg ) {
-			if ( isset( $this->{"_$arg"} ) ) {
-				if ( $this->{"_$arg"} instanceof AbstractPropertiesCollection ) {
-					$properties = $this->{"_$arg"}->to_array();
+		] as $name ) {
+			$property = "_$name";
+
+			if ( isset( $this->$property ) ) {
+				if ( $this->$property instanceof AbstractPropertiesCollection ) {
+					$properties = $this->$property->to_array();
 
 					if ( ! empty( $properties ) ) {
-						$this->_args[ $arg ] = $properties;
+						$args[ $name ] = $properties;
 					}
 				} else {
-					$this->_args[ $arg ] = $this->{"_$arg"};
+					$args[ $name ] = $this->$property;
 				}
 			}
 		}
 
-		return $this->_args;
+		return $args;
 	}
 }
