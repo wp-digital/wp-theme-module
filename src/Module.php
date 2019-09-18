@@ -13,18 +13,30 @@ use Innocode\WPThemeModule\Abstracts\AbstractThemeInitialization;
 class Module
 {
     /**
+     * Path to module
+     *
      * @var string
      */
     private $_path;
     /**
+     * Module name
+     *
      * @var string
      */
     private $_name;
     /**
-     * @var AbstractInitialization
+     * Module initialization object
+     *
+     * @var AbstractInitialization|AbstractThemeInitialization
      */
     private $_initialization;
 
+	/**
+	 * Module constructor.
+	 *
+	 * @param string $path
+	 * @param string $name
+	 */
     public function __construct( string $path, string $name )
     {
         $this->_name = $name;
@@ -32,6 +44,8 @@ class Module
     }
 
     /**
+     * Returns module path
+     *
      * @return string
      */
     public function get_path() : string
@@ -40,6 +54,8 @@ class Module
     }
 
     /**
+     * Returns module name
+     *
      * @return string
      */
     public function get_name() : string
@@ -48,6 +64,8 @@ class Module
     }
 
     /**
+     * Returns initialization object
+     *
      * @return AbstractInitialization|AbstractThemeInitialization
      */
     public function get_initialization() : AbstractRegistrar
@@ -56,6 +74,8 @@ class Module
     }
 
     /**
+     * Returns initialization class name
+     *
      * @return string
      */
     public function get_initialization_class() : string
@@ -64,6 +84,8 @@ class Module
     }
 
     /**
+     * Returns functions class name
+     *
      * @return string
      */
     public function get_functions_class() : string
@@ -72,6 +94,8 @@ class Module
     }
 
     /**
+     * Checks if initialization class name exists and loads it
+     *
      * @return bool
      */
     public function initialization_class_exists() : bool
@@ -80,6 +104,8 @@ class Module
     }
 
     /**
+     * Checks if functions class name exists and loads it
+     *
      * @return bool
      */
     public function functions_class_exists() : bool
@@ -87,6 +113,9 @@ class Module
         return class_exists( $this->get_functions_class() );
     }
 
+	/**
+	 * Loads initialization and functions classes
+	 */
     public function load_required_classes()
     {
         if ( ! $this->initialization_class_exists() ) {
@@ -108,6 +137,9 @@ class Module
         }
     }
 
+	/**
+	 * Initializes module
+	 */
     public function init()
     {
         $initialization_class = $this->get_initialization_class();

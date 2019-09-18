@@ -6,6 +6,7 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Capabilities
+ * @see register_taxonomy()
  * @package Innocode\WPThemeModule\Taxonomy
  */
 final class Capabilities extends AbstractPropertiesCollection

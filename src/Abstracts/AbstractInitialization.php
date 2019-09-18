@@ -13,14 +13,21 @@ use Innocode\WPThemeModule\Taxonomy\Taxonomy;
 abstract class AbstractInitialization extends AbstractRegistrar implements InitializationInterface
 {
     /**
+     * Post types storage
+     *
      * @var PostType[]
      */
     protected $_post_types = [];
     /**
+     * Taxonomies storage
+     *
      * @var Taxonomy[]
      */
     protected $_taxonomies = [];
 
+	/**
+	 * Initializes module
+	 */
     public function run()
     {
         parent::run();
@@ -31,6 +38,9 @@ abstract class AbstractInitialization extends AbstractRegistrar implements Initi
         }, 0 );
     }
 
+	/**
+	 * Registers all module post types
+	 */
     private function _register_post_types()
     {
         foreach ( $this->get_post_types() as $post_type ) {
@@ -39,6 +49,9 @@ abstract class AbstractInitialization extends AbstractRegistrar implements Initi
     }
 
 	/**
+	 * Registers WordPress post type
+	 *
+	 * @uses register_post_type()
 	 * @param PostType $post_type
 	 */
     private function _register_post_type( PostType $post_type )
@@ -55,6 +68,9 @@ abstract class AbstractInitialization extends AbstractRegistrar implements Initi
 	    $this->_post_types[ $name ] = $post_type;
     }
 
+	/**
+	 * Registers all module taxonomies
+	 */
     private function _register_taxonomies()
     {
         foreach ( $this->get_taxonomies() as $taxonomy ) {
@@ -63,6 +79,9 @@ abstract class AbstractInitialization extends AbstractRegistrar implements Initi
     }
 
 	/**
+	 * Registers WordPress taxonomy
+	 *
+	 * @uses register_taxonomy()
 	 * @param Taxonomy $taxonomy
 	 */
     private function _register_taxonomy( Taxonomy $taxonomy )

@@ -6,6 +6,8 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Labels
+ *
+ * @uses get_post_type_labels()
  * @package Innocode\WPThemeModule\PostType
  */
 final class Labels extends AbstractPropertiesCollection

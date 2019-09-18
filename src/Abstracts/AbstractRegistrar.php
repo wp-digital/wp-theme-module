@@ -13,22 +13,33 @@ use ReflectionMethod;
 abstract class AbstractRegistrar
 {
 	/**
+	 * Registrars methods storage
+	 *
 	 * @var ReflectionMethod[]
 	 */
 	private $_registrars = [];
 	/**
+	 * Registrars methods for admin area storage
+	 *
 	 * @var ReflectionMethod[]
 	 */
 	private $_admin_registrars = [];
 	/**
+	 * WordPress filters storage
+	 *
 	 * @var ReflectionMethod[]
 	 */
 	private $_filters = [];
 	/**
+	 * WordPress actions storage
+	 *
 	 * @var ReflectionMethod[]
 	 */
 	private $_actions = [];
 
+	/**
+	 * Initializes module
+	 */
 	public function run()
 	{
 		$this->_sort_methods();
@@ -38,6 +49,8 @@ abstract class AbstractRegistrar
 	}
 
 	/**
+	 * Returns all class methods with public access
+	 *
 	 * @return ReflectionMethod[]
 	 */
 	private function _get_public_methods() : array
@@ -51,6 +64,9 @@ abstract class AbstractRegistrar
 		return $reflection->getMethods( ReflectionMethod::IS_PUBLIC );
 	}
 
+	/**
+	 * Sorts methods by categories
+	 */
 	private function _sort_methods()
 	{
 		$public_methods = $this->_get_public_methods();
@@ -74,9 +90,10 @@ abstract class AbstractRegistrar
 	}
 
 	/**
+	 * Checks if method starts with string
+	 *
 	 * @param ReflectionMethod $method
 	 * @param string           $prefix
-	 *
 	 * @return bool
 	 */
 	private function _method_starts_with( ReflectionMethod $method, string $prefix ) : bool
@@ -84,6 +101,9 @@ abstract class AbstractRegistrar
 		return substr( $method->getName(), 0, strlen( $prefix ) ) === $prefix;
 	}
 
+	/**
+	 * Calls all registrars including admin if needed
+	 */
 	private function _call_registrars()
 	{
 		$registrars = $this->_registrars;
@@ -97,6 +117,9 @@ abstract class AbstractRegistrar
 		}
 	}
 
+	/**
+	 * Adds WordPress filters
+	 */
 	private function _add_filters()
 	{
 		foreach ( $this->_filters as $filter ) {
@@ -104,6 +127,9 @@ abstract class AbstractRegistrar
 		}
 	}
 
+	/**
+	 * Adds WordPress actions
+	 */
 	private function _add_actions()
 	{
 		foreach ( $this->_actions as $action ) {
@@ -112,7 +138,9 @@ abstract class AbstractRegistrar
 	}
 
 	/**
-	 * @param string $function
+	 * Adds WordPress hook
+	 *
+	 * @param string           $function
 	 * @param ReflectionMethod $method
 	 */
 	private function _add_hook( string $function, ReflectionMethod $method )

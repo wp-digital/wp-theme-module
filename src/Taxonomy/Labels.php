@@ -6,6 +6,7 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Labels
+ * @see get_taxonomy_labels()
  * @package Innocode\WPThemeModule\Taxonomy
  */
 final class Labels extends AbstractPropertiesCollection

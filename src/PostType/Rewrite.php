@@ -6,6 +6,7 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Rewrite
+ * @see register_post_type()
  * @package Innocode\WPThemeModule\PostType
  */
 final class Rewrite extends AbstractPropertiesCollection

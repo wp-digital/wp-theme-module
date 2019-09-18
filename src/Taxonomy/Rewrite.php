@@ -6,6 +6,7 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Rewrite
+ * @see register_taxonomy
  * @package Innocode\WPThemeModule\Taxonomy
  */
 final class Rewrite extends AbstractPropertiesCollection

@@ -6,6 +6,8 @@ use Innocode\WPThemeModule\Abstracts\AbstractPropertiesCollection;
 
 /**
  * Class Capabilities
+ *
+ * @see get_post_type_capabilities()
  * @package Innocode\WPThemeModule\PostType
  */
 final class Capabilities extends AbstractPropertiesCollection

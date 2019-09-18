@@ -2,9 +2,9 @@
 
 namespace Innocode\WPThemeModule\PostType;
 
-use ArrayObject;
 use Innocode\WPThemeModule\Abstracts\AbstractArgs;
 use Innocode\WPThemeModule\Taxonomy\Taxonomy;
+use ArrayObject;
 
 /**
  * Class PostType
@@ -35,11 +35,14 @@ use Innocode\WPThemeModule\Taxonomy\Taxonomy;
  * @property string|bool  $query_var
  * @property bool         $can_export
  * @property bool         $delete_with_user
+ * @see register_post_type()
  * @package Innocode\WPThemeModule
  */
 final class PostType extends AbstractArgs
 {
 	/**
+	 * Post type name
+	 *
 	 * @var string
 	 */
 	private $_name;
@@ -57,6 +60,8 @@ final class PostType extends AbstractArgs
     }
 
 	/**
+	 * Returns name
+	 *
 	 * @return string
 	 */
     public function get_name() : string
@@ -65,6 +70,8 @@ final class PostType extends AbstractArgs
     }
 
 	/**
+	 * Returns labels object
+	 *
 	 * @return Labels
 	 */
 	public function get_labels() : Labels
@@ -73,6 +80,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Sets labels
+	 *
 	 * @param array $labels
 	 */
 	public function set_labels( array $labels )
@@ -81,6 +90,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Returns capabilities object
+	 *
 	 * @return Capabilities
 	 */
 	public function get_capabilities() : Capabilities
@@ -89,6 +100,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Sets capabilities
+	 *
 	 * @param array $capabilities
 	 */
 	public function set_capabilities( array $capabilities )
@@ -97,6 +110,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Adds support
+	 *
 	 * @param string $support
 	 */
 	public function add_support( string $support )
@@ -109,6 +124,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Adds taxonomy
+	 *
 	 * @param Taxonomy|string $taxonomy
 	 */
 	public function add_taxonomy( $taxonomy )
@@ -127,6 +144,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Returns rewrite rules
+	 *
 	 * @return Rewrite|bool
 	 */
 	public function get_rewrite()
@@ -139,6 +158,8 @@ final class PostType extends AbstractArgs
 	}
 
 	/**
+	 * Sets rewrite rules
+	 *
 	 * @param array|false $rewrite
 	 */
 	public function set_rewrite( $rewrite )

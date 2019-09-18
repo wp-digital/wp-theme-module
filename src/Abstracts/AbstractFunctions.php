@@ -12,6 +12,8 @@ use ReflectionException;
 abstract class AbstractFunctions
 {
     /**
+     * Returns module file path
+     *
      * @param string $file
      * @return string
      */
@@ -23,6 +25,8 @@ abstract class AbstractFunctions
     }
 
     /**
+     * Returns module file uri
+     *
      * @param string $file
      * @return string
      */
@@ -34,6 +38,8 @@ abstract class AbstractFunctions
     }
 
     /**
+     * Returns module relative file path
+     *
      * @param string $file
      * @return string
      */

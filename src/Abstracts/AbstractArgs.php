@@ -12,23 +12,33 @@ use ArrayObject;
 abstract class AbstractArgs implements ArgsInterface
 {
 	/**
+	 * Arguments storage
+	 *
 	 * @var array
 	 */
 	protected $_args = [];
 	/**
+	 * Labels storage
+	 *
 	 * @var AbstractPropertiesCollection
 	 */
 	protected $_labels;
 	/**
+	 * Capabilities storage
+	 *
 	 * @var AbstractPropertiesCollection
 	 */
 	protected $_capabilities;
 	/**
+	 * Rewrite rules storage
+	 *
 	 * @var AbstractPropertiesCollection|bool
 	 */
 	protected $_rewrite;
 
 	/**
+	 * Sets argument
+	 *
 	 * @param string $name
 	 * @param mixed  $value
 	 */
@@ -46,6 +56,8 @@ abstract class AbstractArgs implements ArgsInterface
 	}
 
 	/**
+	 * Returns argument
+	 *
 	 * @param string $name
 	 * @return mixed|null
 	 */
@@ -63,8 +75,9 @@ abstract class AbstractArgs implements ArgsInterface
 	}
 
 	/**
-	 * @param $name
+	 * Checks if argument set
 	 *
+	 * @param $name
 	 * @return bool
 	 */
 	public function __isset( $name )
@@ -81,6 +94,8 @@ abstract class AbstractArgs implements ArgsInterface
 	}
 
 	/**
+	 * Unset argument
+	 *
 	 * @param string $name
 	 */
 	public function __unset( $name )
@@ -95,6 +110,8 @@ abstract class AbstractArgs implements ArgsInterface
 	}
 
 	/**
+	 * Returns arguments array
+	 *
 	 * @return array
 	 */
 	public function get_args() : array

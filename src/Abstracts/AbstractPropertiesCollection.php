@@ -23,6 +23,8 @@ abstract class AbstractPropertiesCollection
 	}
 
 	/**
+	 * Sets property
+	 *
 	 * @param string $name
 	 * @param mixed  $value
 	 */
@@ -40,6 +42,8 @@ abstract class AbstractPropertiesCollection
 	}
 
 	/**
+	 * Converts collection to array
+	 *
 	 * @return array
 	 */
 	public function to_array()

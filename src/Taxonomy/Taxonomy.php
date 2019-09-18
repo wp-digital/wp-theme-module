@@ -27,15 +27,20 @@ use Innocode\WPThemeModule\PostType\PostType;
  * @property Rewrite|bool  $rewrite
  * @property string        $query_var
  * @property callable      $update_count_callback
+ * @see register_taxonomy()
  * @package Innocode\WPThemeModule
  */
 final class Taxonomy extends AbstractArgs
 {
 	/**
+	 * Taxonomy name
+	 *
 	 * @var string
 	 */
     private $_name;
 	/**
+	 * Taxonomy object types
+	 *
 	 * @var array
 	 */
     private $_object_types = [];
@@ -63,6 +68,8 @@ final class Taxonomy extends AbstractArgs
     }
 
 	/**
+	 * Returns name
+	 *
 	 * @return string
 	 */
     public function get_name() : string
@@ -71,6 +78,8 @@ final class Taxonomy extends AbstractArgs
     }
 
 	/**
+	 * Returns object types
+	 *
 	 * @return array
 	 */
     public function get_object_types()
@@ -79,6 +88,8 @@ final class Taxonomy extends AbstractArgs
     }
 
 	/**
+	 * Adds object type
+	 *
 	 * @param PostType|string $object_type
 	 */
     public function add_object_type( $object_type )
@@ -91,6 +102,8 @@ final class Taxonomy extends AbstractArgs
     }
 
 	/**
+	 * Adds post type
+	 *
 	 * @param PostType|string $post_type
 	 */
     public function add_post_type( $post_type )
@@ -99,6 +112,8 @@ final class Taxonomy extends AbstractArgs
     }
 
 	/**
+	 * Returns labels object
+	 *
 	 * @return Labels
 	 */
 	public function get_labels() : Labels
@@ -107,6 +122,8 @@ final class Taxonomy extends AbstractArgs
 	}
 
 	/**
+	 * Sets labels
+	 *
 	 * @param array $labels
 	 */
 	public function set_labels( array $labels )
@@ -115,6 +132,8 @@ final class Taxonomy extends AbstractArgs
 	}
 
 	/**
+	 * Returns capabilities object
+	 *
 	 * @return Capabilities
 	 */
 	public function get_capabilities() : Capabilities
@@ -123,6 +142,8 @@ final class Taxonomy extends AbstractArgs
 	}
 
 	/**
+	 * Sets capabilities
+	 *
 	 * @param array $capabilities
 	 */
 	public function set_capabilities( array $capabilities )
@@ -131,6 +152,8 @@ final class Taxonomy extends AbstractArgs
 	}
 
 	/**
+	 * Returns rewrite rules
+	 *
 	 * @return Rewrite|bool
 	 */
 	public function get_rewrite()
@@ -139,6 +162,8 @@ final class Taxonomy extends AbstractArgs
 	}
 
 	/**
+	 * Sets rewrite rules
+	 *
 	 * @param array|bool $rewrite
 	 */
 	public function set_rewrite( $rewrite )

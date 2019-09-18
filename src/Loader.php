@@ -16,10 +16,17 @@ use ArrayIterator;
 final class Loader implements ArrayAccess, IteratorAggregate, Countable
 {
     /**
+     * Modules storage
+     *
      * @var array
      */
     private $_modules = [];
 
+	/**
+	 * Loader constructor.
+	 *
+	 * @param array|null $modules
+	 */
     public function __construct( array $modules = null )
     {
         if ( is_null( $modules ) ) {
@@ -122,6 +129,8 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Returns modules directory
+     *
      * @return string
      */
     public function get_modules_dir() : string
@@ -129,6 +138,9 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
         return get_stylesheet_directory() . '/modules';
     }
 
+	/**
+	 * Initializes loader
+	 */
     public function run()
     {
         if ( ! isset( $this['Theme'] ) ) {
@@ -141,6 +153,8 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Finds modules in directory
+     *
      * @return array
      */
     public function scan_modules_dir() : array
@@ -161,6 +175,8 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Loads module classes and initializes
+     *
      * @param Module $module
      */
     public function load( Module $module )

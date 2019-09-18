@@ -10,6 +10,9 @@ use Innocode\WPThemeModule\Interfaces\ThemeInitializationInterface;
  */
 abstract class AbstractThemeInitialization extends AbstractRegistrar implements ThemeInitializationInterface
 {
+	/**
+	 * Initializes module
+	 */
     public function run()
     {
         parent::run();
@@ -26,6 +29,11 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
         } );
     }
 
+	/**
+	 * Loads theme text domain depending on TEXT_DOMAIN constant existing and value
+	 *
+	 * @uses load_theme_textdomain()
+	 */
     private function _load_theme_text_domain()
     {
         if ( defined( 'TEXT_DOMAIN' ) && TEXT_DOMAIN ) {
@@ -33,6 +41,11 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
         }
     }
 
+	/**
+	 * Adds image sizes for attachments
+	 *
+	 * @uses add_image_size()
+	 */
     private function _add_image_sizes()
     {
         foreach ( $this->get_image_sizes() as $key => $data ) {
@@ -44,6 +57,11 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
         }
     }
 
+	/**
+	 * Registers WordPress navigation menus
+	 *
+	 * @uses register_nav_menus()
+	 */
     private function _register_nav_menus()
     {
         register_nav_menus( $this->get_nav_menus_locations() );

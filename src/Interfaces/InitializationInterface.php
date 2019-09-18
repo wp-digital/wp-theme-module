@@ -12,11 +12,15 @@ use Innocode\WPThemeModule\Taxonomy\Taxonomy;
 interface InitializationInterface
 {
 	/**
+	 * Returns module post types
+	 *
 	 * @return PostType[]
 	 */
     public function get_post_types() : array;
 
 	/**
+	 * Returns module taxonomies
+	 *
 	 * @return Taxonomy[]
 	 */
     public function get_taxonomies() : array;
