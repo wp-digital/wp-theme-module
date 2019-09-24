@@ -1,3 +1,6 @@
+# Lock file because it's a library
+composer.lock
+
 # Dependency directories
 vendor/
 
