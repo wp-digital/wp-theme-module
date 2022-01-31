@@ -6,7 +6,7 @@ use Innocode\WPThemeModule\Interfaces\ThemeInitializationInterface;
 
 /**
  * Class AbstractThemeInitialization
- * @package Innocode\WPThemeModule
+ * @package Innocode\WPThemeModule\Abstracts
  */
 abstract class AbstractThemeInitialization extends AbstractRegistrar implements ThemeInitializationInterface
 {
@@ -30,14 +30,26 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
     }
 
 	/**
-	 * Loads theme text domain depending on TEXT_DOMAIN constant existing and value
+	 * Returns text domain from TEXT_DOMAIN constant
+	 *
+	 * @return string
+	 */
+	protected function _get_text_domain() : string
+	{
+		return defined( 'TEXT_DOMAIN' ) ? TEXT_DOMAIN : '';
+	}
+
+	/**
+	 * Loads theme text domain depending on constant existing and value
 	 *
 	 * @uses load_theme_textdomain()
 	 */
     private function _load_theme_text_domain()
     {
-        if ( defined( 'TEXT_DOMAIN' ) && TEXT_DOMAIN ) {
-            load_theme_textdomain( TEXT_DOMAIN, get_template_directory() . '/languages' );
+		$text_domain = $this->_get_text_domain();
+
+        if ( $text_domain ) {
+            load_theme_textdomain( $text_domain, get_template_directory() . '/languages' );
         }
     }
 
@@ -49,9 +61,9 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
     private function _add_image_sizes()
     {
         foreach ( $this->get_image_sizes() as $key => $data ) {
-            $width = isset( $data[ 0 ] ) ? $data[ 0 ] : 0;
-            $height = isset( $data[ 1 ] ) ? $data[ 1 ] : 0;
-            $crop = isset( $data[ 2 ] ) ? $data[ 2 ] : false;
+            $width = $data[ 0 ] ?? 0;
+            $height = $data[ 1 ] ?? 0;
+            $crop = $data[ 2 ] ?? false;
 
             add_image_size( $key, $width, $height, $crop );
         }

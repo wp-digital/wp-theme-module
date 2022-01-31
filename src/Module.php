@@ -2,6 +2,7 @@
 
 namespace Innocode\WPThemeModule;
 
+use Innocode\WPThemeModule\Abstracts\AbstractChildInitialization;
 use Innocode\WPThemeModule\Abstracts\AbstractInitialization;
 use Innocode\WPThemeModule\Abstracts\AbstractRegistrar;
 use Innocode\WPThemeModule\Abstracts\AbstractThemeInitialization;
@@ -144,28 +145,23 @@ class Module
     {
         $initialization_class = $this->get_initialization_class();
         $this->_initialization = new $initialization_class;
+		$required_initialization_class = AbstractInitialization::class;
 
         if ( $this->get_name() == 'Theme' ) {
-	        if ( ! ( $this->_initialization instanceof AbstractThemeInitialization ) ) {
-		        $abstract_theme_initialization_class = __NAMESPACE__ . '\\AbstractThemeInitialization';
-		        trigger_error( sprintf(
-			        'Class %s should extends %s in module %s at %s.',
-			        $initialization_class,
-			        $abstract_theme_initialization_class,
-			        $this->get_name(),
-			        $this->get_path()
-		        ), E_USER_ERROR );
-	        }
-        } elseif ( ! ( $this->_initialization instanceof AbstractInitialization ) ) {
-            $abstract_initialization_class = __NAMESPACE__ . '\\AbstractInitialization';
+	        $required_initialization_class = AbstractThemeInitialization::class;
+        } elseif ( $this->get_name() == 'Child' ) {
+	        $required_initialization_class = AbstractChildInitialization::class;
+        }
+
+		if ( ! ( $this->_initialization instanceof $required_initialization_class ) ) {
 			trigger_error( sprintf(
 				'Class %s should extends %s in module %s at %s.',
 				$initialization_class,
-				$abstract_initialization_class,
+				$required_initialization_class,
 				$this->get_name(),
 				$this->get_path()
 			), E_USER_ERROR );
-        }
+		}
 
         $this->_initialization->run();
     }

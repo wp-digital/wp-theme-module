@@ -42,7 +42,7 @@ abstract class AbstractArgs implements ArgsInterface
 	 * @param string $name
 	 * @param mixed  $value
 	 */
-	public function __set( $name, $value )
+	public function __set( string $name, $value )
 	{
 		$setter = "set_$name";
 
@@ -61,7 +61,7 @@ abstract class AbstractArgs implements ArgsInterface
 	 * @param string $name
 	 * @return mixed|null
 	 */
-	public function __get( $name )
+	public function __get( string $name )
 	{
 		$getter = "get_$name";
 
@@ -77,10 +77,10 @@ abstract class AbstractArgs implements ArgsInterface
 	/**
 	 * Checks if argument set
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @return bool
 	 */
-	public function __isset( $name )
+	public function __isset( string $name )
 	{
 		$getter = "get_$name";
 
@@ -98,7 +98,7 @@ abstract class AbstractArgs implements ArgsInterface
 	 *
 	 * @param string $name
 	 */
-	public function __unset( $name )
+	public function __unset( string $name )
 	{
 		$setter = "set_$name";
 

@@ -21,14 +21,22 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
      * @var array
      */
     private $_modules = [];
+	/**
+	 * Whether to load modules from Child Theme directory
+	 *
+	 * @var bool
+	 */
+	private $_is_child;
 
 	/**
 	 * Loader constructor.
 	 *
 	 * @param array|null $modules
 	 */
-    public function __construct( array $modules = null )
+    public function __construct( array $modules = null, bool $is_child = false )
     {
+		$this->_is_child = $is_child;
+
         if ( is_null( $modules ) ) {
             $modules = $this->scan_modules_dir();
         }
@@ -37,6 +45,14 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
             $this[] = $module;
         }
     }
+
+	/**
+	 * @return bool
+	 */
+	public function is_child() : bool
+	{
+		return $this->_is_child;
+	}
 
 	/**
 	 * Retrieve an external iterator
@@ -78,7 +94,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetGet( $offset )
     {
-        return isset( $this->_modules[ $offset ] ) ? $this->_modules[ $offset ] : null;
+        return $this->_modules[ $offset ] ?? null;
     }
 
     /**
@@ -135,7 +151,9 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
      */
     public function get_modules_dir() : string
     {
-        return get_stylesheet_directory() . '/modules';
+		$base_dir = $this->is_child() ? get_stylesheet_directory() : get_template_directory();
+
+        return "$base_dir/modules";
     }
 
 	/**
@@ -143,9 +161,13 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 */
     public function run()
     {
-        if ( ! isset( $this['Theme'] ) ) {
+        if ( ! $this->is_child() && ! isset( $this['Theme'] ) ) {
         	trigger_error( 'Missing Theme module.', E_USER_ERROR );
         }
+
+	    if ( $this->is_child() && ! isset( $this['Child'] ) ) {
+		    trigger_error( 'Missing Child module.', E_USER_ERROR );
+	    }
 
         foreach ( $this as $module ) {
             $this->load( $module );

@@ -55,11 +55,7 @@ abstract class AbstractRegistrar
 	 */
 	private function _get_public_methods() : array
 	{
-		try {
-			$reflection = new ReflectionClass( $this );
-		} catch ( ReflectionException $exception ) {
-			return [];
-		}
+		$reflection = new ReflectionClass( $this );
 
 		return $reflection->getMethods( ReflectionMethod::IS_PUBLIC );
 	}
@@ -113,7 +109,11 @@ abstract class AbstractRegistrar
 		}
 
 		foreach ( $registrars as $registrar ) {
-			$registrar->invoke( $this );
+			try {
+				$registrar->invoke( $this );
+			} catch ( ReflectionException $exception ) {
+				trigger_error( $exception->getMessage(), E_USER_ERROR );
+			}
 		}
 	}
 
@@ -147,7 +147,7 @@ abstract class AbstractRegistrar
 	{
 		$tag = str_replace( "{$function}_", '', $method->getName() );
 		$params_count = $method->getNumberOfParameters();
-		$priority_pattern = '/^((?!__).)+__(\d+)$/';
+		$priority_pattern = '/^(.*?)__(\d+)$/';
 		$priority = preg_match( $priority_pattern, $method->getName(), $matches )
 			? intval( $matches[ 2 ] )
 			: 10;

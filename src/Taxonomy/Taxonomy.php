@@ -82,7 +82,7 @@ final class Taxonomy extends AbstractArgs
 	 *
 	 * @return array
 	 */
-    public function get_object_types()
+    public function get_object_types() : array
     {
     	return $this->_object_types;
     }
