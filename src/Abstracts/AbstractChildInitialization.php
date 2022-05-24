@@ -19,6 +19,16 @@ abstract class AbstractChildInitialization extends AbstractThemeInitialization
 	}
 
 	/**
+	 * Returns path to child theme directory
+	 *
+	 * @return string
+	 */
+	protected function _get_theme_dir() : string
+	{
+		return get_stylesheet_directory();
+	}
+
+	/**
 	 * Makes it optional
 	 *
 	 * @return array

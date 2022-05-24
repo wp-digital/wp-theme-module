@@ -28,7 +28,7 @@ class Module
     /**
      * Module initialization object
      *
-     * @var AbstractInitialization|AbstractThemeInitialization
+     * @var AbstractInitialization|AbstractThemeInitialization|AbstractChildInitialization
      */
     private $_initialization;
 
@@ -40,8 +40,8 @@ class Module
 	 */
     public function __construct( string $path, string $name )
     {
-        $this->_name = $name;
-        $this->_path = $path;
+	    $this->_path = $path;
+	    $this->_name = $name;
     }
 
     /**
@@ -81,7 +81,7 @@ class Module
      */
     public function get_initialization_class() : string
     {
-        return "\\Module\\$this->_name\\Initialization";
+        return "\\Module\\{$this->get_name()}\\Initialization";
     }
 
     /**
@@ -91,7 +91,7 @@ class Module
      */
     public function get_functions_class() : string
     {
-        return "\\Module\\$this->_name\\Functions";
+        return "\\Module\\{$this->get_name()}\\Functions";
     }
 
     /**
@@ -144,13 +144,14 @@ class Module
     public function init()
     {
         $initialization_class = $this->get_initialization_class();
-        $this->_initialization = new $initialization_class;
-		$required_initialization_class = AbstractInitialization::class;
+		$this->_initialization = new $initialization_class;
 
         if ( $this->get_name() == 'Theme' ) {
 	        $required_initialization_class = AbstractThemeInitialization::class;
         } elseif ( $this->get_name() == 'Child' ) {
 	        $required_initialization_class = AbstractChildInitialization::class;
+        } else {
+	        $required_initialization_class = AbstractInitialization::class;
         }
 
 		if ( ! ( $this->_initialization instanceof $required_initialization_class ) ) {
@@ -163,6 +164,6 @@ class Module
 			), E_USER_ERROR );
 		}
 
-        $this->_initialization->run();
+		$this->_initialization->run();
     }
 }

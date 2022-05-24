@@ -40,6 +40,16 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
 	}
 
 	/**
+	 * Returns path to theme directory
+	 *
+	 * @return string
+	 */
+	protected function _get_theme_dir() : string
+	{
+		return get_template_directory();
+	}
+
+	/**
 	 * Loads theme text domain depending on constant existing and value
 	 *
 	 * @uses load_theme_textdomain()
@@ -49,7 +59,7 @@ abstract class AbstractThemeInitialization extends AbstractRegistrar implements 
 		$text_domain = $this->_get_text_domain();
 
         if ( $text_domain ) {
-            load_theme_textdomain( $text_domain, get_template_directory() . '/languages' );
+            load_theme_textdomain( $text_domain, "{$this->_get_theme_dir()}/languages" );
         }
     }
 
