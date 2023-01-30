@@ -145,12 +145,15 @@ abstract class AbstractRegistrar
 	 */
 	private function _add_hook( string $function, ReflectionMethod $method )
 	{
-		$tag = str_replace( "{$function}_", '', $method->getName() );
-		$params_count = $method->getNumberOfParameters();
-		$priority_pattern = '/^(.*?)__(\d+)$/';
-		$priority = preg_match( $priority_pattern, $method->getName(), $matches )
-			? intval( $matches[ 2 ] )
-			: 10;
-		$function( $tag, [ $this, $method->getName() ], $priority, $params_count );
+		$pattern = sprintf( '/^%s_(.+?)(__(\d+))?$/', $function );
+
+		if ( preg_match( $pattern, $method->getName(), $matches ) ) {
+			$function(
+				$matches[1],
+				[ $this, $matches[0] ],
+				isset( $matches[3] ) ? (int) $matches[3] : 10,
+				$method->getNumberOfParameters()
+			);
+		}
 	}
 }
