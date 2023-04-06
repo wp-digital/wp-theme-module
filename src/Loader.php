@@ -190,7 +190,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * <b>Traversable</b>
 	 * @since 5.0.0
 	 */
-	public function getIterator()
+	public function getIterator(): Traversable
 	{
 		return new ArrayIterator( $this->_modules );
 	}
@@ -207,7 +207,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * The return value will be casted to boolean if non-boolean was returned.
 	 * @since 5.0.0
 	 */
-	public function offsetExists( $offset )
+	public function offsetExists( $offset ): bool
 	{
 		return isset( $this->_modules[ $offset ] );
 	}
@@ -221,6 +221,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * @return mixed Can return all value types.
 	 * @since 5.0.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet( $offset )
 	{
 		return $this->_modules[ $offset ] ?? null;
@@ -238,7 +239,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * @return void
 	 * @since 5.0.0
 	 */
-	public function offsetSet( $offset, $value )
+	public function offsetSet( $offset, $value ): void
 	{
 		$this->_modules[ $offset ] = $value;
 	}
@@ -252,7 +253,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * @return void
 	 * @since 5.0.0
 	 */
-	public function offsetUnset( $offset )
+	public function offsetUnset( $offset ): void
 	{
 		unset( $this->_modules[ $offset ] );
 	}
@@ -266,7 +267,7 @@ final class Loader implements ArrayAccess, IteratorAggregate, Countable
 	 * The return value is cast to an integer.
 	 * @since 5.1.0
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->_modules );
 	}

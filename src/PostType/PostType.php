@@ -16,7 +16,7 @@ use ArrayObject;
  * @property bool         $exclude_from_search
  * @property bool         $publicly_queryable
  * @property bool         $show_ui
- * @property bool         $show_in_menu
+ * @property bool|string  $show_in_menu
  * @property bool         $show_in_nav_menus
  * @property bool         $show_in_admin_bar
  * @property bool         $show_in_rest
@@ -35,6 +35,8 @@ use ArrayObject;
  * @property string|bool  $query_var
  * @property bool         $can_export
  * @property bool         $delete_with_user
+ * @property array        $template
+ * @property string|bool  $template_lock
  * @see register_post_type()
  * @package Innocode\WPThemeModule
  */

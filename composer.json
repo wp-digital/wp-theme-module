@@ -1,10 +1,10 @@
 {
-  "name": "innocode-digital/wp-theme-module",
-  "version": "1.2.1",
+  "name": "wp-digital/wp-theme-module",
+  "version": "1.3.0",
   "type": "library",
   "license": "MIT",
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.4"
   },
   "description": "Library for WordPress theme modularization.",
   "autoload": {

@@ -7,26 +7,29 @@ use Innocode\WPThemeModule\PostType\PostType;
 
 /**
  * Class Taxonomy
- * @property Labels        $labels
- * @property string        $description
- * @property bool          $public
- * @property bool          $publicly_queryable
- * @property bool          $hierarchical
- * @property bool          $show_ui
- * @property bool          $show_in_menu
- * @property bool          $show_in_nav_menus
- * @property bool          $show_in_rest
- * @property string        $rest_base
- * @property string        $rest_controller_class
- * @property bool          $show_tagcloud
- * @property bool          $show_in_quick_edit
- * @property bool          $show_admin_column
- * @property bool|callable $meta_box_cb
- * @property callable      $meta_box_sanitize_cb
- * @property Capabilities  $capabilities
- * @property Rewrite|bool  $rewrite
- * @property string        $query_var
- * @property callable      $update_count_callback
+ * @property Labels             $labels
+ * @property string             $description
+ * @property bool               $public
+ * @property bool               $publicly_queryable
+ * @property bool               $hierarchical
+ * @property bool               $show_ui
+ * @property bool               $show_in_menu
+ * @property bool               $show_in_nav_menus
+ * @property bool               $show_in_rest
+ * @property string             $rest_base
+ * @property string             $rest_controller_class
+ * @property bool               $show_tagcloud
+ * @property bool               $show_in_quick_edit
+ * @property bool               $show_admin_column
+ * @property bool|callable      $meta_box_cb
+ * @property callable           $meta_box_sanitize_cb
+ * @property Capabilities       $capabilities
+ * @property Rewrite|bool       $rewrite
+ * @property string|bool        $query_var
+ * @property callable           $update_count_callback
+ * @property DefaultTerm|string $default_term
+ * @property bool               $sort
+ * @property array              $args
  * @see register_taxonomy()
  * @package Innocode\WPThemeModule
  */
@@ -44,6 +47,10 @@ final class Taxonomy extends AbstractArgs
 	 * @var array
 	 */
     private $_object_types = [];
+	/**
+	 * @var DefaultTerm|string
+	 */
+	private $_default_term;
 
 	/**
 	 * Taxonomy constructor.
@@ -164,12 +171,30 @@ final class Taxonomy extends AbstractArgs
 	/**
 	 * Sets rewrite rules
 	 *
-	 * @param array|bool $rewrite
+	 * @param array|bool|Rewrite $rewrite
 	 */
 	public function set_rewrite( $rewrite )
     {
 	    $this->_rewrite = is_array( $rewrite )
 		    ? new Rewrite( $rewrite )
 		    : $rewrite;
+	}
+
+	/**
+	 * @return DefaultTerm|string
+	 */
+	public function get_default_term()
+	{
+		return $this->_default_term;
+	}
+
+	/**
+	 * @param array|string|DefaultTerm $default_term
+	 */
+	public function set_default_term( $default_term )
+	{
+		$this->_default_term = is_array( $default_term )
+			? new DefaultTerm( $default_term )
+			: $default_term;
 	}
 }

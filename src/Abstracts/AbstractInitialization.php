@@ -39,6 +39,22 @@ abstract class AbstractInitialization extends AbstractRegistrar implements Initi
     }
 
 	/**
+	 * @return PostType[]
+	 */
+	public function get_post_types() : array
+	{
+		return [];
+	}
+
+	/**
+	 * @return Taxonomy[]
+	 */
+	public function get_taxonomies() : array
+	{
+		return [];
+	}
+
+	/**
 	 * Registers all module post types
 	 */
     private function _register_post_types()
